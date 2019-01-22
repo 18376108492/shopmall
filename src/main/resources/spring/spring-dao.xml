@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+	<!-- 配置整合mybatis过程 -->
+	<!-- 1.配置数据库相关参数properties的属性：${url} -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+
+
+	<!-- 2.数据库连接池 -->
+
+	<!--主从服务器读写分离-->
+	<!--<bean id="abstractDataSource" abstract="true" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		&lt;!&ndash; c3p0连接池的私有属性 &ndash;&gt;
+		<property name="maxPoolSize" value="30" />
+		<property name="minPoolSize" value="10" />
+		&lt;!&ndash; 关闭连接后不自动commit &ndash;&gt;
+		<property name="autoCommitOnClose" value="false" />
+		&lt;!&ndash; 获取连接超时时间 &ndash;&gt;
+		<property name="checkoutTimeout" value="10000" />
+		&lt;!&ndash; 当获取连接失败重试次数 &ndash;&gt;
+		<property name="acquireRetryAttempts" value="2" />
+	</bean>
+
+	<bean id="master" parent="abstractDataSource">
+		&lt;!&ndash; 配置连接池属性 &ndash;&gt;
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="jdbcUrl" value="${jdbc.master.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.master.password}" />
+	</bean>
+
+	<bean id="slave" parent="abstractDataSource">
+		&lt;!&ndash; 配置连接池属性 &ndash;&gt;
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="jdbcUrl" value="${jdbc.slave.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.slave.password}" />
+	</bean>
+
+	&lt;!&ndash;配置动态数据源，这儿targetDataSources就是路由数据源所对应的名称&ndash;&gt;
+   <bean id="dynamicDataSource" class="com.itdan.shopmall.dao.split.DynamicDataSource">
+    <property name="targetDataSources">
+		<map>
+			<entry value-ref="master" key="master"></entry>
+			<entry value-ref="slave" key="slave"></entry>
+		</map>
+	</property>
+   </bean>-->
+
+	<!--将dynamicDataSource放入DataSource中让其做懒加载-->
+	<!--<bean id="dataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
+        <property name="targetDataSource" >
+			<ref bean="dynamicDataSource"/>
+		</property>
+	</bean>-->
+
+	<!-- 数据库连接池 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		  destroy-method="close">
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="maxActive" value="10" />
+		<property name="minIdle" value="5" />
+	</bean>
+
+	<!-- 让spring管理sqlsessionfactory 使用mybatis和spring整合包中的 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 数据库连接池 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- 加载mybatis的全局配置文件 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+	</bean>
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.itdan.shopmall.dao" />
+	</bean>
+</beans>
