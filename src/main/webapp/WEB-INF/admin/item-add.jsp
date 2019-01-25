@@ -102,6 +102,7 @@
 			}
 			paramJson.push({
 				"group" : group,
+				
 				"params": ps
 			});
 		});
@@ -112,7 +113,7 @@
 		//ajax的post方式提交表单
 		//$("#itemAddForm").serialize()将表单序列号为key-value形式的字符串
 		$.post("/item/save",$("#itemAddForm").serialize(), function(data){
-			if(data.status == 200){
+			if(data.success){
 				$.messager.alert('提示','新增商品成功!');
 			}
 		});

@@ -1,4 +1,4 @@
-package com.itdan.shopmall.utils.pojo;
+package com.itdan.shopmall.utils.result;
 
 import java.io.Serializable;
 import java.util.List;

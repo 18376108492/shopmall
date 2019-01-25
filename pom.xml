@@ -208,7 +208,12 @@
       <artifactId>pagehelper</artifactId>
       <version>3.4.2-fix</version>
     </dependency>
-
+    <!--FastDFS图片服务器-->
+    <dependency>
+      <groupId>fastdfs_client</groupId>
+      <artifactId>fastdfs_client</artifactId>
+      <version>1.25</version>
+    </dependency>
 
   </dependencies>
 

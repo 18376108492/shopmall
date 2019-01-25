@@ -1,7 +1,10 @@
 package com.itdan.shopmall.service;
 
 import com.itdan.shopmall.entity.TbItem;
-import com.itdan.shopmall.utils.pojo.EasyUIDataGridResult;
+import com.itdan.shopmall.utils.result.EasyUIDataGridResult;
+import com.itdan.shopmall.utils.result.EasyUITreeNode;
+
+import java.util.List;
 
 /**
  * 商品后台管理业务逻辑接口
@@ -23,4 +26,11 @@ public interface ItemService {
      * @param desc 商品描述
      */
       void addItem(TbItem tbItem,String desc);
+
+    /**
+     * 商城后台获取商品的分类
+     * @param parentId 父类节点
+     * @return
+     */
+    List<EasyUITreeNode> getItemCat(long parentId);
 }
