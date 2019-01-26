@@ -3,6 +3,7 @@ package com.itdan.shopmall.service;
 import com.itdan.shopmall.entity.TbItem;
 import com.itdan.shopmall.utils.result.EasyUIDataGridResult;
 import com.itdan.shopmall.utils.result.EasyUITreeNode;
+import com.itdan.shopmall.utils.result.ShopMallResult;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public interface ItemService {
      * @param tbItem 商品对象
      * @param desc 商品描述
      */
-      void addItem(TbItem tbItem,String desc);
+     ShopMallResult  addItem(TbItem tbItem, String desc);
 
     /**
      * 商城后台获取商品的分类
@@ -33,4 +34,11 @@ public interface ItemService {
      * @return
      */
     List<EasyUITreeNode> getItemCat(long parentId);
+
+    /**
+     * 后台商品修改操作(查询商品并回显)
+     * @param id 商品id
+     * @return
+     */
+    TbItem editItem(long id);
 }

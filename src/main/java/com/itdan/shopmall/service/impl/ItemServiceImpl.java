@@ -10,6 +10,7 @@ import com.itdan.shopmall.service.ItemService;
 import com.itdan.shopmall.utils.common.IDUtils;
 import com.itdan.shopmall.utils.result.EasyUIDataGridResult;
 import com.itdan.shopmall.utils.result.EasyUITreeNode;
+import com.itdan.shopmall.utils.result.ShopMallResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,11 +49,12 @@ public class ItemServiceImpl implements ItemService {
 
 
     @Override
-    public void addItem(TbItem tbItem, String desc) {
+    public ShopMallResult addItem(TbItem tbItem, String desc) {
+        //补全商品状态，其他的在商品添加页面获取
         //为商品生产唯一的id
         long itemId=IDUtils.genItemId();
         //保存id
-        tbItem.setCid(itemId);
+        tbItem.setId(itemId);
         //保存商品状态 :1-正常 ,2-下架,3-删除
         tbItem.setStatus((byte)1);
         //设置商品添加时间
@@ -67,7 +69,8 @@ public class ItemServiceImpl implements ItemService {
         tbItemDesc.setItemId(itemId);
         tbItemDesc.setItemDesc(desc);
         tbItemDescMapper.insert(tbItemDesc);
-
+        //返回状态
+        return  ShopMallResult.ok();
     }
 
     @Override
@@ -91,5 +94,13 @@ public class ItemServiceImpl implements ItemService {
              treeNodes.add(treeNode);
          }
           return  treeNodes;
+    }
+
+    @Override
+    public TbItem editItem(long id) {
+        //根据商品id查询商品
+        TbItem tbItem= tbItemMapper.selectByPrimaryKey(id);
+        //将查询后的商品回显
+           return tbItem;
     }
 }
