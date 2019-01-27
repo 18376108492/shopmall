@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.itdan.shopmall.dao.TbItemCatMapper;
 import com.itdan.shopmall.dao.TbItemDescMapper;
 import com.itdan.shopmall.dao.TbItemMapper;
+import com.itdan.shopmall.dao.TbItemParamItemMapper;
 import com.itdan.shopmall.entity.*;
 import com.itdan.shopmall.service.ItemService;
 import com.itdan.shopmall.utils.common.IDUtils;
@@ -30,6 +31,8 @@ public class ItemServiceImpl implements ItemService {
     private TbItemDescMapper tbItemDescMapper;
     @Autowired
     private TbItemCatMapper tbItemCatMapper;
+    @Autowired
+    private TbItemParamItemMapper tbItemParamItemMapper;
 
     @Override
     public EasyUIDataGridResult getItemList(Integer page, Integer rows) {
@@ -97,10 +100,54 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public TbItem editItem(long id) {
+    public List editItem(long id) {
         //根据商品id查询商品
         TbItem tbItem= tbItemMapper.selectByPrimaryKey(id);
+        //获取商品类型的cid
+        Long  cid= tbItem.getCid();
+        //查询商品类型
+        TbItemCat itemCat=tbItemCatMapper.selectByPrimaryKey(cid);
+        //查询商品描述
+
+        List list=new ArrayList();
+        list.add(tbItem);
+        list.add(itemCat);
         //将查询后的商品回显
-           return tbItem;
+           return list;
+    }
+
+    @Override
+    public TbItemDesc queryItemDesc(long itemId) {
+        //添加查询条件
+        TbItemDescExample itemDescExample=new TbItemDescExample();
+        TbItemDescExample.Criteria criteria=itemDescExample.createCriteria();
+        criteria.andItemIdEqualTo(itemId);
+        //查询商品描述
+       List<TbItemDesc> tbItemDesc =tbItemDescMapper.selectByExample(itemDescExample);
+       return tbItemDesc!=null&&tbItemDesc.size()>0?tbItemDesc.get(0):null;
+    }
+
+    @Override
+    public ShopMallResult queryItemParam(long itemId) {
+        //添加查询条件
+        TbItemParamItemExample itemDescExample =new TbItemParamItemExample();
+        TbItemParamItemExample.Criteria criteria=itemDescExample.createCriteria();
+        criteria.andItemIdEqualTo(itemId);
+        //查询商品描述
+        List<TbItemParamItem> tbItemParamItems =tbItemParamItemMapper.selectByExample(itemDescExample);
+        return ShopMallResult.ok(tbItemParamItems);
+    }
+
+    @Override
+    public ShopMallResult deleteItem(String ids) {
+        //使用逗号截取ids，获取单个商品的id
+        String [] id=ids.split(",");
+        //迭代出当个商品id,并且将其一一删除
+        for (String i:id){
+           Long itemId=Long.valueOf(i);
+           tbItemMapper.deleteByPrimaryKey(itemId);
+        }
+        return ShopMallResult.ok();
+
     }
 }

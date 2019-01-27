@@ -1,6 +1,7 @@
 package com.itdan.shopmall.service;
 
 import com.itdan.shopmall.entity.TbItem;
+import com.itdan.shopmall.entity.TbItemDesc;
 import com.itdan.shopmall.utils.result.EasyUIDataGridResult;
 import com.itdan.shopmall.utils.result.EasyUITreeNode;
 import com.itdan.shopmall.utils.result.ShopMallResult;
@@ -11,7 +12,6 @@ import java.util.List;
  * 商品后台管理业务逻辑接口
  */
 public interface ItemService {
-
 
     /**
      * 后台商品集合显示及分页操作
@@ -40,5 +40,26 @@ public interface ItemService {
      * @param id 商品id
      * @return
      */
-    TbItem editItem(long id);
+    List editItem(long id);
+
+    /**
+     * 查询商品描述
+     * @param itemId 商品id
+     * @return
+     */
+    TbItemDesc queryItemDesc(long itemId);
+
+    /**
+     * 查询商品规格参数
+     * @param itemId 商品id
+     * @return
+     */
+    ShopMallResult queryItemParam(long itemId);
+
+    /**
+     * 删除商品
+     * @param ids 商品id数组
+     * @return
+     */
+    ShopMallResult deleteItem(String ids);
 }

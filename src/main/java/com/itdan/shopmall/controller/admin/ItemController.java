@@ -1,21 +1,25 @@
 package com.itdan.shopmall.controller.admin;
 
 import com.itdan.shopmall.entity.TbItem;
+import com.itdan.shopmall.entity.TbItemDesc;
 import com.itdan.shopmall.service.ItemService;
 import com.itdan.shopmall.utils.common.FastDFSClient;
 import com.itdan.shopmall.utils.common.JsonUtils;
 import com.itdan.shopmall.utils.result.EasyUIDataGridResult;
 import com.itdan.shopmall.utils.result.EasyUITreeNode;
 import com.itdan.shopmall.utils.result.ShopMallResult;
+import net.sf.jsqlparser.statement.create.table.Index;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +31,6 @@ import java.util.Map;
  */
 
 @Controller
-//@RequestMapping(value = "/admin")
 public class ItemController {
 
     @Autowired
@@ -37,6 +40,17 @@ public class ItemController {
     @Value("${IMAGE_SERVICE_URL}")
     private String IMAGE_SERVICE_URL;
 
+
+    /**
+     * json测试
+     * @return
+     */
+    @RequestMapping(value = "/hello",produces = MediaType.TEXT_PLAIN_VALUE+";charset=UTF-8")
+    @ResponseBody
+    public String hello(){
+        String str="你好啊";
+        return JsonUtils.objectToJson(str);
+    }
     /**
      * 商城后台商品列表显示
      * @param page
@@ -108,13 +122,25 @@ public class ItemController {
            return shopMallResult;
     }
 
-    @RequestMapping(value = "/item-edit")
+    /**
+     * 商城后台修改商品操作
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/item-edit",produces = MediaType.TEXT_PLAIN_VALUE+";charset=UTF-8")
     @ResponseBody
     public String restEidtPage(@RequestParam(value = "id") long id){
-        TbItem tbItem=itemService.editItem(id);
-       return JsonUtils.objectToJson(tbItem);
+        //获取商品
+        List list=itemService.editItem(id);
+       return JsonUtils.objectToJson(list);
     }
 
+    /**
+     * 商城后台修改商品操作(获取商品描述回显)
+     * @param tbItem
+     * @param desc
+     * @return
+     */
     @RequestMapping(value = "/rest/item/update",method = RequestMethod.POST)
     @ResponseBody
     public ShopMallResult eidtItem(TbItem tbItem,String desc){
@@ -122,5 +148,52 @@ public class ItemController {
         return shopMallResult;
     }
 
+    /**
+     * 商城后台跳转至修改界面操作(获取商品描述回显)
+     * @param itemId
+     * @return
+     */
+    @RequestMapping(value = "/rest/item/query/item/desc/",produces = MediaType.TEXT_PLAIN_VALUE+";charset=UTF-8")
+    @ResponseBody
+    public String queryItemDesc(@RequestParam(value = "id")long itemId){
+
+        Map<String,Object> map=new HashMap<>();
+        TbItemDesc tbItemDesc=itemService.queryItemDesc(itemId);
+        if(tbItemDesc!=null){
+            map.put("itemDesc",tbItemDesc);
+            map.put("status",200);
+            return  JsonUtils.objectToJson(map);
+        }else {
+            map.put("itemDesc",null);
+            map.put("status",0);//0表示失败状态
+            return  JsonUtils.objectToJson(map);
+        }
+    }
+
+    /**
+     * 商城后台修改商品操作(获取商品规格参数回显)
+     * @param itemId
+     * @return
+     */
+    @RequestMapping(value = "/rest/item/param/item/query/",produces = MediaType.TEXT_PLAIN_VALUE+";charset=UTF-8")
+    @ResponseBody
+    public  String queryItemParam(@RequestParam(value = "id")long itemId){
+       ShopMallResult shopMallResult= itemService.queryItemParam(itemId);
+       return JsonUtils.objectToJson(shopMallResult);
+    }
+
+    /**
+     * 商城后台删除商品操作
+     * @param ids
+     * @return
+     */
+    @RequestMapping(value ="/itemDelete",produces = MediaType.TEXT_PLAIN_VALUE+";charset=UTF-8")
+    public ModelAndView deleteItem(@RequestParam(value = "ids") String ids){
+            ShopMallResult shopMallResult=  itemService.deleteItem(ids);
+            ModelAndView view=new ModelAndView();
+            view.addObject("status",shopMallResult.getStatus());
+            view.setViewName("admin/item-list");
+            return view;
+    }
 
 }
