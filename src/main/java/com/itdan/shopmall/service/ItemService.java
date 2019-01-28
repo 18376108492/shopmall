@@ -62,4 +62,18 @@ public interface ItemService {
      * @return
      */
     ShopMallResult deleteItem(String ids);
+
+    /**
+     * 下架商品
+     * @param ids 商品id数组
+     * @return
+     */
+    ShopMallResult instockItem(String ids);
+
+    /**
+     * 下架商品
+     * @param ids 商品id数组
+     * @return
+     */
+    ShopMallResult reshelfItem(String ids);
 }

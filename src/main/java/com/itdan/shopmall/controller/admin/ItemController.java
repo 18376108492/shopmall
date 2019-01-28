@@ -196,4 +196,31 @@ public class ItemController {
             return view;
     }
 
+    /**
+     * 商城后台下架商品操作
+     * @param ids
+     * @return
+     */
+    @RequestMapping(value ="/rest/item/instock",produces = MediaType.TEXT_PLAIN_VALUE+";charset=UTF-8")
+    public ModelAndView instockItem(@RequestParam(value = "ids")String ids){
+        ShopMallResult shopMallResult=itemService.instockItem(ids);
+        ModelAndView view=new ModelAndView();
+        view.addObject("status",shopMallResult.getStatus());
+        view.setViewName("admin/item-list");
+        return view;
+    }
+
+    /**
+     * 商城后台上架商品操作
+     * @param ids
+     * @return
+     */
+    @RequestMapping(value ="/rest/item/reshelf",produces = MediaType.TEXT_PLAIN_VALUE+";charset=UTF-8")
+    public ModelAndView reshelfItem(@RequestParam(value = "ids")String ids){
+        ShopMallResult shopMallResult=itemService.instockItem(ids);
+        ModelAndView view=new ModelAndView();
+        view.addObject("status",shopMallResult.getStatus());
+        view.setViewName("admin/item-list");
+        return view;
+    }
 }

@@ -148,6 +148,41 @@ public class ItemServiceImpl implements ItemService {
            tbItemMapper.deleteByPrimaryKey(itemId);
         }
         return ShopMallResult.ok();
+    }
 
+    @Override
+    public ShopMallResult instockItem(String ids) {
+        //使用逗号截取ids，获取单个商品的id
+        String [] id=ids.split(",");
+        //迭代出当个商品id,并且将其一一修改状态
+        //'商品状态，1-正常，2-下架，3-删除'
+        for(String i:id){
+            Long itemId=Long.valueOf(i);
+            //先根据id获取商品，然后修改商品状态
+            TbItem tbItem=tbItemMapper.selectByPrimaryKey(itemId);
+            //修改商品转态为下架形式
+            tbItem.setStatus((byte)2);
+            //更新商品
+            tbItemMapper.insert(tbItem);
+        }
+        return ShopMallResult.ok();
+    }
+
+    @Override
+    public ShopMallResult reshelfItem(String ids) {
+        //使用逗号截取ids，获取单个商品的id
+        String [] id=ids.split(",");
+        //迭代出当个商品id,并且将其一一修改状态
+        //'商品状态，1-正常，2-下架，3-删除'
+        for(String i:id){
+            Long itemId=Long.valueOf(i);
+            //先根据id获取商品，然后修改商品状态
+            TbItem tbItem=tbItemMapper.selectByPrimaryKey(itemId);
+            //修改商品转态为下架形式
+            tbItem.setStatus((byte)3);
+            //更新商品
+            tbItemMapper.insert(tbItem);
+        }
+        return ShopMallResult.ok();
     }
 }
