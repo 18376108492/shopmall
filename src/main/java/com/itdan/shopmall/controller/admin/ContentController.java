@@ -5,7 +5,6 @@ import com.itdan.shopmall.utils.common.JsonUtils;
 import com.itdan.shopmall.utils.result.EasyUITreeNode;
 import com.itdan.shopmall.utils.result.ShopMallResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +22,11 @@ public class ContentController {
     @Autowired
     private ContentService contentService;
 
+    /**
+     * 遍历内容管理的树形结构
+     * @param parentId
+     * @return
+     */
     @RequestMapping(value = "/content/category/list")
     @ResponseBody
     public String getContentList(
@@ -33,11 +37,43 @@ public class ContentController {
     }
 
 
+    /**
+     * 添加内容管理节点
+     * @param parentId
+     * @param name
+     * @return
+     */
     @RequestMapping(value = "/content/category/create",method = RequestMethod.POST)
     @ResponseBody
-    public ShopMallResult addContentCategroy(long parentId,String name){
+    public ShopMallResult addContentCategory(long parentId,String name){
        ShopMallResult shopMallResult= contentService.addContentCategroy(parentId,name);
        return  shopMallResult;
+    }
+
+    /**
+     * 删除内容分类管理节点
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/content/category/delete/")
+    @ResponseBody
+    public ShopMallResult deleteContentCategory(long id){
+       ShopMallResult shopMallResult= contentService.deleteContentCategroy(id);
+       return shopMallResult;
+    }
+
+
+    /**
+     * 更新内容分类管理节点
+     * @param id
+     * @param name
+     * @return
+     */
+    @RequestMapping(value = "/content/category/update")
+    @ResponseBody
+    public ShopMallResult updateContentCategroy(long id,String name){
+       ShopMallResult shopMallResult= contentService.updateContentCategroy(id,name);
+       return shopMallResult;
     }
 }
 

@@ -163,7 +163,7 @@ public class ItemServiceImpl implements ItemService {
             //修改商品转态为下架形式
             tbItem.setStatus((byte)2);
             //更新商品
-            tbItemMapper.insert(tbItem);
+            tbItemMapper.updateByPrimaryKey(tbItem);
         }
         return ShopMallResult.ok();
     }
@@ -179,9 +179,9 @@ public class ItemServiceImpl implements ItemService {
             //先根据id获取商品，然后修改商品状态
             TbItem tbItem=tbItemMapper.selectByPrimaryKey(itemId);
             //修改商品转态为下架形式
-            tbItem.setStatus((byte)3);
+            tbItem.setStatus((byte)1);
             //更新商品
-            tbItemMapper.insert(tbItem);
+            tbItemMapper.updateByPrimaryKey(tbItem);
         }
         return ShopMallResult.ok();
     }

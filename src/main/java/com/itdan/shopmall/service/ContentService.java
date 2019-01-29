@@ -18,10 +18,24 @@ public interface ContentService {
     List<EasyUITreeNode> getContentList(long parentId);
 
     /**
-     * 添加内容分类管理的功能
+     * 添加内容分类管理节点的功能
      * @param parentId
      * @param name
      * @return
      */
     ShopMallResult addContentCategroy(long parentId,String name);
+
+    /**
+     * 删除内容分类管理节点的功能
+     * @param nodeID
+     * @return
+     */
+    ShopMallResult deleteContentCategroy(long nodeID);
+
+    /**
+     * 更新内容分类管理节点的功能
+     * @param nodeID
+     * @return
+     */
+    ShopMallResult updateContentCategroy(long nodeID,String name);
 }

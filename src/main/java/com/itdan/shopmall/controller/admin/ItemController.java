@@ -175,7 +175,7 @@ public class ItemController {
      * @param itemId
      * @return
      */
-    @RequestMapping(value = "/rest/item/param/item/query/",produces = MediaType.TEXT_PLAIN_VALUE+";charset=UTF-8")
+    @RequestMapping(value = "/rest/item/param/item/query/")
     @ResponseBody
     public  String queryItemParam(@RequestParam(value = "id")long itemId){
        ShopMallResult shopMallResult= itemService.queryItemParam(itemId);
@@ -187,7 +187,7 @@ public class ItemController {
      * @param ids
      * @return
      */
-    @RequestMapping(value ="/itemDelete",produces = MediaType.TEXT_PLAIN_VALUE+";charset=UTF-8")
+    @RequestMapping(value ="/itemDelete")
     public ModelAndView deleteItem(@RequestParam(value = "ids") String ids){
             ShopMallResult shopMallResult=  itemService.deleteItem(ids);
             ModelAndView view=new ModelAndView();
@@ -201,7 +201,7 @@ public class ItemController {
      * @param ids
      * @return
      */
-    @RequestMapping(value ="/rest/item/instock",produces = MediaType.TEXT_PLAIN_VALUE+";charset=UTF-8")
+    @RequestMapping(value ="/rest/item/instock")
     public ModelAndView instockItem(@RequestParam(value = "ids")String ids){
         ShopMallResult shopMallResult=itemService.instockItem(ids);
         ModelAndView view=new ModelAndView();
@@ -215,9 +215,9 @@ public class ItemController {
      * @param ids
      * @return
      */
-    @RequestMapping(value ="/rest/item/reshelf",produces = MediaType.TEXT_PLAIN_VALUE+";charset=UTF-8")
+    @RequestMapping(value ="/rest/item/reshelf")
     public ModelAndView reshelfItem(@RequestParam(value = "ids")String ids){
-        ShopMallResult shopMallResult=itemService.instockItem(ids);
+        ShopMallResult shopMallResult=itemService.reshelfItem(ids);
         ModelAndView view=new ModelAndView();
         view.addObject("status",shopMallResult.getStatus());
         view.setViewName("admin/item-list");
