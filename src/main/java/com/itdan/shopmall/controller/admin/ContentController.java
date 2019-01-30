@@ -1,5 +1,7 @@
 package com.itdan.shopmall.controller.admin;
 
+import com.itdan.shopmall.entity.TbContent;
+import com.itdan.shopmall.entity.TbItem;
 import com.itdan.shopmall.service.ContentService;
 import com.itdan.shopmall.utils.common.JsonUtils;
 import com.itdan.shopmall.utils.result.EasyUITreeNode;
@@ -29,10 +31,10 @@ public class ContentController {
      */
     @RequestMapping(value = "/content/category/list")
     @ResponseBody
-    public String getContentList(
+    public String getContentCategroyList(
             @RequestParam(value = "id",defaultValue = "0")long parentId){
         //获取树形列表
-       List<EasyUITreeNode> list= contentService.getContentList(parentId);
+       List<EasyUITreeNode> list= contentService.getContentCategroyList(parentId);
         return JsonUtils.objectToJson(list);
     }
 
@@ -75,5 +77,39 @@ public class ContentController {
        ShopMallResult shopMallResult= contentService.updateContentCategroy(id,name);
        return shopMallResult;
     }
+
+    /**
+     * 根据内容类目ID获取内容列表
+     * @param categoryId
+     * @return
+     */
+    @RequestMapping(value = "/content/query/list",method = RequestMethod.GET)
+    @ResponseBody
+    public String getContentList(long categoryId){
+       List<TbContent> list= contentService.getContentList(categoryId);
+        return JsonUtils.objectToJson(list);
+    }
+
+    /**
+     * 跳转至内容类目添加页面
+     * @return
+     */
+    @RequestMapping(value = "/content-add")
+    public String restContentAdd(){
+        return "admin/content-add";
+    }
+
+    /**
+     * 添加内容类目
+     * @param tbContent
+     * @return
+     */
+    @RequestMapping(value = "/content/save",method = RequestMethod.POST)
+    @ResponseBody
+    public ShopMallResult addContent(TbContent tbContent){
+      ShopMallResult shopMallResult=  contentService.addContent(tbContent);
+      return shopMallResult;
+    }
+
 }
 

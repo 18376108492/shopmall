@@ -1,5 +1,6 @@
 package com.itdan.shopmall.service;
 
+import com.itdan.shopmall.entity.TbContent;
 import com.itdan.shopmall.utils.result.EasyUITreeNode;
 import com.itdan.shopmall.utils.result.ShopMallResult;
 
@@ -15,7 +16,7 @@ public interface ContentService {
      * @param parentId
      * @return
      */
-    List<EasyUITreeNode> getContentList(long parentId);
+    List<EasyUITreeNode> getContentCategroyList(long parentId);
 
     /**
      * 添加内容分类管理节点的功能
@@ -38,4 +39,18 @@ public interface ContentService {
      * @return
      */
     ShopMallResult updateContentCategroy(long nodeID,String name);
+
+    /**
+     * 根据内容类目ID获取内容列表
+     * @param category_id
+     * @return
+     */
+    List<TbContent> getContentList(long category_id);
+
+    /**
+     * 增加内容管理
+     * @param tbContent
+     * @return
+     */
+    ShopMallResult addContent(TbContent tbContent);
 }

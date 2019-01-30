@@ -1,8 +1,11 @@
 package com.itdan.shopmall.service.impl;
 
 import com.itdan.shopmall.dao.TbContentCategoryMapper;
+import com.itdan.shopmall.dao.TbContentMapper;
+import com.itdan.shopmall.entity.TbContent;
 import com.itdan.shopmall.entity.TbContentCategory;
 import com.itdan.shopmall.entity.TbContentCategoryExample;
+import com.itdan.shopmall.entity.TbContentExample;
 import com.itdan.shopmall.service.ContentService;
 import com.itdan.shopmall.utils.result.EasyUITreeNode;
 import com.itdan.shopmall.utils.result.ShopMallResult;
@@ -21,9 +24,11 @@ public class ConentServiceImpl implements ContentService {
 
     @Autowired
     private TbContentCategoryMapper tbContentCategoryMapper;
+    @Autowired
+    private TbContentMapper tbContentMapper;
 
     @Override
-    public List<EasyUITreeNode> getContentList(long parentId) {
+    public List<EasyUITreeNode> getContentCategroyList(long parentId) {
         //添加查询条件
         TbContentCategoryExample example=new TbContentCategoryExample();
         TbContentCategoryExample.Criteria criteria=example.createCriteria();
@@ -104,4 +109,26 @@ public class ConentServiceImpl implements ContentService {
         tbContentCategoryMapper.updateByPrimaryKey(contentCategory);
         return  ShopMallResult.ok(contentCategory);
     }
+
+    @Override
+    public List<TbContent> getContentList(long category_id) {
+        //创建查询内容
+        TbContentExample example=new TbContentExample();
+        TbContentExample.Criteria criteria= example.createCriteria();
+        criteria.andCategoryIdEqualTo(category_id);
+        //根据内容类目ID获取内容列表
+         List<TbContent> list=tbContentMapper.selectByExample(example);
+        return list;
+    }
+
+    @Override
+    public ShopMallResult addContent(TbContent tbContent) {
+        //为对象添加时间
+        tbContent.setCreated(new Date());
+        tbContent.setUpdated(new Date());
+        tbContentMapper.insert(tbContent);
+        return ShopMallResult.ok();
+    }
+
+
 }
