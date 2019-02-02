@@ -1,4 +1,4 @@
-package com.itdan.shopmall.fastdfs_test;
+package com.itdan.shopmall.test;
 
 import com.itdan.shopmall.BaseTest;
 import com.itdan.shopmall.utils.common.FastDFSClient;
