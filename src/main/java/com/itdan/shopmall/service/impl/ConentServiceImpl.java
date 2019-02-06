@@ -7,9 +7,13 @@ import com.itdan.shopmall.entity.TbContentCategory;
 import com.itdan.shopmall.entity.TbContentCategoryExample;
 import com.itdan.shopmall.entity.TbContentExample;
 import com.itdan.shopmall.service.ContentService;
+import com.itdan.shopmall.utils.common.JsonUtils;
+import com.itdan.shopmall.utils.jedis.JedisClient;
 import com.itdan.shopmall.utils.result.EasyUITreeNode;
 import com.itdan.shopmall.utils.result.ShopMallResult;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,6 +30,11 @@ public class ConentServiceImpl implements ContentService {
     private TbContentCategoryMapper tbContentCategoryMapper;
     @Autowired
     private TbContentMapper tbContentMapper;
+    @Autowired
+    private JedisClient jedisClient;
+
+    @Value("${CONTENT_LIST}")
+    private  String CONTENT_LIST;
 
     @Override
     public List<EasyUITreeNode> getContentCategroyList(long parentId) {
@@ -112,13 +121,33 @@ public class ConentServiceImpl implements ContentService {
 
     @Override
     public List<TbContent> getContentList(long category_id) {
-        //创建查询内容
+        //查询缓存
+        try {//如果缓存中有，就直接响应结果
+           String json= jedisClient.hget(CONTENT_LIST,category_id+"");
+
+           //判断json是否有值
+            if(StringUtils.isNotBlank(json)){
+              List<TbContent>contentList =JsonUtils.jsonToList(json,TbContent.class);
+              return contentList;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //创建查询内容（缓存中没有,接直接查询数据库）
         TbContentExample example=new TbContentExample();
         TbContentExample.Criteria criteria= example.createCriteria();
         criteria.andCategoryIdEqualTo(category_id);
         //根据内容类目ID获取内容列表
          List<TbContent> list=tbContentMapper.selectByExample(example);
+        //把结果添加到缓存中
+        try {
+            jedisClient.hset(CONTENT_LIST,category_id+"",JsonUtils.objectToJson(list));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return list;
+
     }
 
     @Override

@@ -2,6 +2,12 @@ package com.itdan.shopmall.entity;
 
 import java.util.Date;
 
+/**  用户信息实体类
+ *   `username` varchar(50) NOT NULL COMMENT '用户名',
+ *   `password` varchar(32) NOT NULL COMMENT '密码，加密存储',
+ *   `phone` varchar(20) DEFAULT NULL COMMENT '注册手机号',
+ *   `email` varchar(50) DEFAULT NULL COMMENT '注册邮箱',
+ */
 public class TbUser {
     private Long id;
 

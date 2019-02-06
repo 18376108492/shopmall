@@ -2,6 +2,11 @@ package com.itdan.shopmall.entity;
 
 import java.util.Date;
 
+/*      商品描述实体类
+        `item_id` bigint(20) NOT NULL COMMENT '商品ID',
+        `item_desc` text COMMENT '商品描述',
+        `created` datetime DEFAULT NULL COMMENT '创建时间',
+        `updated` datetime DEFAULT NULL COMMENT '更新时间',*/
 public class TbItemDesc {
     private Long itemId;
 

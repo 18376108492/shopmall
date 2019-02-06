@@ -2,6 +2,9 @@ package com.itdan.shopmall.entity;
 
 import java.util.Date;
 
+/**
+ * 商品规格描实体类
+ */
 public class TbItemParam {
     private Long id;
 
@@ -11,7 +14,7 @@ public class TbItemParam {
 
     private Date updated;
 
-    private String paramData;
+    private String paramData;//参数数据，格式为json格式
 
     public Long getId() {
         return id;

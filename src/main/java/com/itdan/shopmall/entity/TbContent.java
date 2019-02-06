@@ -2,6 +2,16 @@ package com.itdan.shopmall.entity;
 
 import java.util.Date;
 
+/*      内容注释实体类
+        `id` bigint(20) NOT NULL AUTO_INCREMENT,
+        `category_id` bigint(20) NOT NULL COMMENT '内容类目ID',
+        `title` varchar(200) DEFAULT NULL COMMENT '内容标题',
+        `sub_title` varchar(100) DEFAULT NULL COMMENT '子标题',
+        `title_desc` varchar(500) DEFAULT NULL COMMENT '标题描述',
+        `url` varchar(500) DEFAULT NULL COMMENT '链接',
+        `pic` varchar(300) DEFAULT NULL COMMENT '图片绝对路径',
+        `pic2` varchar(300) DEFAULT NULL COMMENT '图片2',
+        `content` text COMMENT '内容',*/
 public class TbContent {
     private Long id;
 

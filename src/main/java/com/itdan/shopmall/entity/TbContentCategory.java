@@ -2,6 +2,15 @@ package com.itdan.shopmall.entity;
 
 import java.util.Date;
 
+/*       内容分类实体类
+         `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '类目ID',
+         `parent_id` bigint(20) DEFAULT NULL COMMENT '父类目ID=0时，代表的是一级的类目',
+         `name` varchar(50) DEFAULT NULL COMMENT '分类名称',
+         `status` int(1) DEFAULT '1' COMMENT '状态。可选值:1(正常),2(删除)',
+         `sort_order` int(4) DEFAULT NULL COMMENT '排列序号，表示同级类目的展现次序，如数值相等则按名称次序排列。取值范围:大于零的整数',
+         `is_parent` tinyint(1) DEFAULT '1' COMMENT '该类目是否为父类目，1为true，0为false',
+         `created` datetime DEFAULT NULL COMMENT '创建时间',
+         `updated` datetime DEFAULT NULL COMMENT '创建时间',*/
 public class TbContentCategory {
     private Long id;
 
