@@ -7,6 +7,7 @@ import com.itdan.shopmall.service.SolrItemService;
 import com.itdan.shopmall.utils.result.ShopMallResult;
 import com.itdan.shopmall.utils.result.SolrResult;
 import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class SolrItemServiceImpl implements SolrItemService {
     @Autowired
     private SolrItemMapper solrItemMapper;
     @Autowired
-    private SolrServer  solrServer;
+    private SolrServer solrServer;
 
     @Override
     public ShopMallResult importAllItem() {

@@ -76,7 +76,14 @@
 		<!-- 加载mybatis的全局配置文件 -->
 		<property name="configLocation" value="classpath:mybatis-config.xml" />
 	</bean>
+
+
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.itdan.shopmall.dao" />
 	</bean>
+
+	<!--配置SearchDAO-->
+	<bean id="searchDAO" class="com.itdan.shopmall.dao.SearchDAO">
+	</bean>
+
 </beans>

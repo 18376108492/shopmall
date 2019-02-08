@@ -53,6 +53,6 @@
 
 	<!--HttpSolrServer的配置-->
 	<bean id="httpSolrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
-		<constructor-arg index="0" value="192.168.25.128:8080/solr"/>
+		<constructor-arg index="0" value="http://192.168.25.128:8080/solr"/>
 	</bean>
 </beans>
