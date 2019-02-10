@@ -83,7 +83,7 @@ public class SolrTest {
         //创建一个SolrQuery对象
         SolrQuery solrQuery = new SolrQuery();
         //设置查询条件
-        solrQuery.set("手机");
+        solrQuery.set("q","手机");
         //设置分页
         solrQuery.setStart(0);
         solrQuery.setRows(30);

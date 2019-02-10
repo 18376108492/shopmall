@@ -23,21 +23,21 @@ public class SearchController {
 
     /**
      * 将查询商品结果返回
-     * @param keyWord
+     * @param keyword
      * @param page
      * @param model
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/search")
-    public String searchItemList(String keyWord,
+    public String searchItemList(String keyword,
                                  @RequestParam(defaultValue = "1") int page, Model model) throws Exception{
         //转码
-        keyWord=new String(keyWord.getBytes("iso-8859-1"),"utf-8");
+        keyword=new String(keyword.getBytes("iso-8859-1"),"utf-8");
         //获取查询结果
-       SearchResult searchResult=searchService.search(keyWord,page,ROWS);
+       SearchResult searchResult=searchService.search(keyword,page,ROWS);
        //添加查询信息
-       model.addAttribute("query",keyWord);
+       model.addAttribute("query",keyword);
        model.addAttribute("totalPages",searchResult.getTotalPages());
        model.addAttribute("page",page);
        model.addAttribute("recourdCount",searchResult.getRecourdCount());

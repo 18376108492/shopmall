@@ -61,4 +61,12 @@ public class SolrResult implements Serializable {
     public void setCategroy_name(String categroy_name) {
         this.categroy_name = categroy_name;
     }
+
+    public String [] getImages(){
+        if(image!=null&&"".equals(image)){
+            String[]strings=image.split(",");
+         return strings;
+        }
+        return null;
+    }
 }

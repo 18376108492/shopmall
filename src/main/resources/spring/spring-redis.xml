@@ -7,7 +7,10 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
-	
+
+	<!--扫描相关的bean-->
+	<context:component-scan base-package="com.itdan.shopmall.utils" />
+
 	<!-- 连接redis单机版 -->
 	<bean id="jedisClientPool" class="com.itdan.shopmall.utils.jedis.JedisClientPool">
 		<property name="jedisPool" ref="jedisPool"></property>

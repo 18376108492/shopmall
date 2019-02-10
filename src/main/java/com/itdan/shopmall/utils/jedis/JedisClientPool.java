@@ -2,11 +2,13 @@ package com.itdan.shopmall.utils.jedis;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 public class JedisClientPool implements JedisClient {
-	
+
+	@Autowired
 	private JedisPool jedisPool;
 
 	public JedisPool getJedisPool() {

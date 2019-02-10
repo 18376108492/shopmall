@@ -23,7 +23,7 @@ public class SearchServiceImpl implements SearchService {
     public SearchResult search(String keyWord, int page,int rows) throws Exception{
         SolrQuery query=new SolrQuery();
         //创建查询条件
-        query.set(keyWord);
+        query.set("q",keyWord);
         if (page<=0){
             page=1;
         }
@@ -35,7 +35,7 @@ public class SearchServiceImpl implements SearchService {
         //设置高亮
         query.setHighlight(true);
         query.addHighlightField("item_title");
-        query.setHighlightSimplePre("<em style='color:red'>");
+        query.setHighlightSimplePre("<em style=\"color:red\">");
         query.setHighlightSimplePost("</em>");
 
         //查询
