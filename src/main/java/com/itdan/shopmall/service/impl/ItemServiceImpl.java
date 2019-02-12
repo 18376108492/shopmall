@@ -12,9 +12,17 @@ import com.itdan.shopmall.utils.common.IDUtils;
 import com.itdan.shopmall.utils.result.EasyUIDataGridResult;
 import com.itdan.shopmall.utils.result.EasyUITreeNode;
 import com.itdan.shopmall.utils.result.ShopMallResult;
+import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +41,12 @@ public class ItemServiceImpl implements ItemService {
     private TbItemCatMapper tbItemCatMapper;
     @Autowired
     private TbItemParamItemMapper tbItemParamItemMapper;
+    //获取JmsTemplate对象
+    @Autowired
+    private JmsTemplate jmsTemplate;
+    //从容器中获取一个Destination对象(根据id注入)
+    @Resource
+    private  Destination topicDestination;
 
     @Override
     public EasyUIDataGridResult getItemList(Integer page, Integer rows) {
@@ -55,7 +69,7 @@ public class ItemServiceImpl implements ItemService {
     public ShopMallResult addItem(TbItem tbItem, String desc) {
         //补全商品状态，其他的在商品添加页面获取
         //为商品生产唯一的id
-        long itemId=IDUtils.genItemId();
+        final long itemId=IDUtils.genItemId();
         //保存id
         tbItem.setId(itemId);
         //保存商品状态 :1-正常 ,2-下架,3-删除
@@ -72,6 +86,16 @@ public class ItemServiceImpl implements ItemService {
         tbItemDesc.setItemId(itemId);
         tbItemDesc.setItemDesc(desc);
         tbItemDescMapper.insert(tbItemDesc);
+
+        //添加商品成功，并同步索引库
+        //发送消息
+        jmsTemplate.send(topicDestination, new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                return   session.createTextMessage(itemId+"");
+            }
+        });
+
         //返回状态
         return  ShopMallResult.ok();
     }

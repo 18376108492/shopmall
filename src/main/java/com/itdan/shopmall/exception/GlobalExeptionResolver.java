@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-public class GlobalExxeptionResolver implements HandlerExceptionResolver {
+public class GlobalExeptionResolver implements HandlerExceptionResolver {
 
-    private static final Logger logger=LoggerFactory.getLogger(GlobalExxeptionResolver.class);
+    private static final Logger logger=LoggerFactory.getLogger(GlobalExeptionResolver.class);
 
     @Override
     /**

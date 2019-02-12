@@ -44,7 +44,7 @@
 	</bean>
 
 	<!--异常处理器-->
-	<bean id="globalExxeptionResolver" class="com.itdan.shopmall.exception.GlobalExxeptionResolver"></bean>
+	<bean id="globalExxeptionResolver" class="com.itdan.shopmall.exception.GlobalExeptionResolver"></bean>
 
 
 
