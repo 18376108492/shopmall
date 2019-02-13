@@ -48,6 +48,21 @@ public class ItemServiceImpl implements ItemService {
     @Resource
     private  Destination topicDestination;
 
+
+    @Override
+    public TbItem getItemById(long itemId) {
+        //根据主键获取商品对象
+        TbItem tbItem= tbItemMapper.selectByPrimaryKey(itemId);
+        return tbItem;
+    }
+
+    @Override
+    public TbItemDesc queryItemDesc(long itemId) {
+        //查询商品描述
+        TbItemDesc tbItemDesc =tbItemDescMapper.selectByPrimaryKey(itemId);
+        return tbItemDesc;
+    }
+
     @Override
     public EasyUIDataGridResult getItemList(Integer page, Integer rows) {
         //添加查询条件
@@ -140,16 +155,7 @@ public class ItemServiceImpl implements ItemService {
            return list;
     }
 
-    @Override
-    public TbItemDesc queryItemDesc(long itemId) {
-        //添加查询条件
-        TbItemDescExample itemDescExample=new TbItemDescExample();
-        TbItemDescExample.Criteria criteria=itemDescExample.createCriteria();
-        criteria.andItemIdEqualTo(itemId);
-        //查询商品描述
-       List<TbItemDesc> tbItemDesc =tbItemDescMapper.selectByExample(itemDescExample);
-       return tbItemDesc!=null&&tbItemDesc.size()>0?tbItemDesc.get(0):null;
-    }
+
 
     @Override
     public ShopMallResult queryItemParam(long itemId) {

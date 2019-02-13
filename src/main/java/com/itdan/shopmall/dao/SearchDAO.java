@@ -51,12 +51,14 @@ public class SearchDAO {
                 solrResult.setCategroy_name((String) document.get("item_category_name"));
                 //添加高亮
                 List<String> highlightList =highlightMap.
-                        get(document.get("id")).get(document.get("item_title"));
+                        get(document.get("id")).get("item_title");
+                String title="";
                 if(highlightList!=null&&highlightList.size()>0){
-                    solrResult.setTitle(highlightList.get(0));
+                    title=highlightList.get(0);
                 }else {
-                    solrResult.setTitle((String) document.get("item_title"));
+                    title=(String) document.get("item_title");
                 }
+                solrResult.setTitle(title);
                 //添加对象
                 resultList.add(solrResult);
             }

@@ -32,7 +32,7 @@ public class SearchServiceImpl implements SearchService {
         query.setRows(rows);
         //默认搜索域
         query.set("df","item_title");
-        //设置高亮
+        //开启高亮显示
         query.setHighlight(true);
         query.addHighlightField("item_title");
         query.setHighlightSimplePre("<em style=\"color:red\">");

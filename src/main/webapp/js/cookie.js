@@ -192,37 +192,7 @@ function setCity(wwwUrl,provinceId,cityId,countyId){
 }
 
 function getAllCity(){
-	var saveUrl = location.href.split('/')[2].split('.');
-	var preDomain = saveUrl[0]; 
-	saveUrl[0] = 'www';
-	saveUrl = saveUrl.join('.');
-	$.ajax({
-		url  : 'http://'+saveUrl+'/AjaxSetCity/GetChangeCity/',
-		dataType: "jsonp",  
-		jsonp:"callback",
-		data : {},
-		success: function(str){
-			if(str.shadowData){
-				$("#shadowAllCity").html(str.shadowData);
-				//显示城市浮层
-				if('www' == preDomain && $("#shadowAllCity").length>0){
-					showShadow();
-				}
-			}
-			var cityNameHtml = '<p class="pshort"><span class="city_title1">'+str.cityName+'</span><b></b><span class="outline1"></span><span class="blank1"></span></p>';
-			if(2==str.cityName.length){
-				cityNameHtml = '<p class="pshort"><span class="city_title1">'+str.cityName+'</span><b></b><span class="outline1"></span><span class="blank1"></span></p>';
-			}
-			if(3==str.cityName.length){
-				cityNameHtml = '<p class="pmiddle"><span class="city_title2">'+str.cityName+'</span><b></b><span class="outline2"></span><span class="blank2"></span></p>';
-			}
-			if(3<str.cityName.length){
-				cityNameHtml = '<p><span class="city_title">'+str.cityName+'</span><b></b><span class="outline"></span><span class="blank"></span></p>';
-			}
-			cityNameHtml = cityNameHtml+ '<div class="dd">'+str.headData+'</div> ';
-			$("#currentCityName").html(cityNameHtml);
-		}
-	});
+	
 }
 
 function showShadow(){

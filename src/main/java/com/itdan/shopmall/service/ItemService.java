@@ -14,6 +14,14 @@ import java.util.List;
 public interface ItemService {
 
     /**
+     * 根据商品ID获取商品对象
+     * @param itemId
+     * @return
+     */
+    TbItem getItemById(long itemId);
+
+
+    /**
      * 后台商品集合显示及分页操作
      * @param page 当前页
      * @param rows 每页显示条数

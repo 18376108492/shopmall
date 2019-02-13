@@ -93,7 +93,7 @@ public class SolrTest {
         solrQuery.setHighlight(true);//开启高亮
         solrQuery.addHighlightField("item_title");//设置高亮字段
         //设置高亮前后缀
-        solrQuery.setHighlightSimplePre("<em>");
+        solrQuery.setHighlightSimplePre("<em style=\"color:red\">");
         solrQuery.setHighlightSimplePost("</em>");
         //执行查询
         QueryResponse response = solrServer.query(solrQuery);
@@ -103,9 +103,10 @@ public class SolrTest {
         //遍历文档
         Map<String,Map<String,List<String>>>  highlightingMap= response.getHighlighting();
         for (SolrDocument document : documentList) {
-            System.out.println(document.get("id"));
+            System.out.println("id:"+document.get("id"));
             //取高亮的结果
-            List<String>highlightingList=highlightingMap.get(document.get("id")).get(document.get("item_title"));//获取高亮集合
+            List<String>highlightingList=highlightingMap.get(document.get("id")).get("item_title");//获取高亮集合
+
             //遍历高亮集合
             String title="";
             if(highlightingList!=null&&highlightingList.size()>0){
@@ -113,11 +114,12 @@ public class SolrTest {
             }else {
                    title=(String) document.get("item_title");
             }
-            System.out.println(title);
-            System.out.println(document.get("item_price"));
-            System.out.println(document.get("item_image"));
-            System.out.println(document.get("item_sell_point"));
-            System.out.println(document.get("item_category_name"));
+            System.out.println("title:"+title);
+            System.out.println("item_price:"+document.get("item_price"));
+            System.out.println("item_image:"+document.get("item_image"));
+            System.out.println("item_sell_point:"+document.get("item_sell_point"));
+            System.out.println("item_category_name:"+document.get("item_category_name"));
+            System.out.println("highlightingList:"+highlightingList);
         }
 
 
