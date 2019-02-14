@@ -9,11 +9,15 @@ import com.itdan.shopmall.dao.TbItemParamItemMapper;
 import com.itdan.shopmall.entity.*;
 import com.itdan.shopmall.service.ItemService;
 import com.itdan.shopmall.utils.common.IDUtils;
+import com.itdan.shopmall.utils.common.JsonUtils;
+import com.itdan.shopmall.utils.jedis.JedisClient;
 import com.itdan.shopmall.utils.result.EasyUIDataGridResult;
 import com.itdan.shopmall.utils.result.EasyUITreeNode;
 import com.itdan.shopmall.utils.result.ShopMallResult;
 import org.apache.activemq.command.ActiveMQQueue;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
@@ -47,19 +51,71 @@ public class ItemServiceImpl implements ItemService {
     //从容器中获取一个Destination对象(根据id注入)
     @Resource
     private  Destination topicDestination;
+    @Autowired
+    private JedisClient jedisClient;
+
+    @Value("${RDEIS_TINE_PRE}")
+    private String RDEIS_TINE_PRE;
+    @Value("${ITEM_CACHE_EXPIRE}")
+    private Integer ITEM_CACHE_EXPIRE;
+
 
 
     @Override
     public TbItem getItemById(long itemId) {
+        //查询缓存
+        try {
+            //根据key获取缓存
+            String json=jedisClient.get(RDEIS_TINE_PRE+":"+itemId+":BASE");
+           if (StringUtils.isNotBlank(json)) {
+               TbItem tbItem = JsonUtils.jsonToPojo(json, TbItem.class);
+               return tbItem;
+           }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         //根据主键获取商品对象
         TbItem tbItem= tbItemMapper.selectByPrimaryKey(itemId);
+
+        //查询数据库,把结果添加到redis缓存中
+        try {
+            //设置缓存的key和value值
+            jedisClient.set(RDEIS_TINE_PRE+":"+itemId+":BASE",JsonUtils.objectToJson(tbItem));
+            //设置缓存过期时间
+            jedisClient.expire(RDEIS_TINE_PRE+":"+itemId+":BASE",ITEM_CACHE_EXPIRE);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return tbItem;
     }
 
     @Override
     public TbItemDesc queryItemDesc(long itemId) {
+        //查询缓存
+        try {
+            //根据key获取缓存
+            String json=jedisClient.get(RDEIS_TINE_PRE+":"+itemId+":DESC");
+            if (StringUtils.isNotBlank(json)) {
+                TbItemDesc tbItemDesc = JsonUtils.jsonToPojo(json, TbItemDesc.class);
+                return tbItemDesc;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         //查询商品描述
         TbItemDesc tbItemDesc =tbItemDescMapper.selectByPrimaryKey(itemId);
+
+        //查询数据库,把结果添加到redis缓存中
+        try {
+            //设置缓存的key和value值
+            jedisClient.set(RDEIS_TINE_PRE+":"+itemId+":DESC",JsonUtils.objectToJson(tbItemDesc));
+            //设置缓存过期时间
+            jedisClient.expire(RDEIS_TINE_PRE+":"+itemId+":DESC",ITEM_CACHE_EXPIRE);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return tbItemDesc;
     }
 
