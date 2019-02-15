@@ -35,6 +35,13 @@
 		<constructor-arg value="itemAddTopic" />
 	</bean>
 
+	<!-- 配置freemarker -->
+	<bean id="freemarkerConfig"
+		  class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/WEB-INF/ftl/" />
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+
 
 
 	<bean id="myMessageListener" class="com.itdan.shopmall.activemq.message.MyMessageListener"/>
@@ -45,13 +52,24 @@
 		<property name="messageListener" ref="myMessageListener" />
 	</bean>
 
-	<bean id="addItemMessageLisenter" class="com.itdan.shopmall.activemq.message.AddItemMessageLisenter"/>
+	<!--监听商品添加，并同步索引库-->
+	<bean id="addItemMessageLisenter" class="com.itdan.shopmall.activemq.message.AddItemMessageLisener"/>
 	<!-- 消息监听容器 -->
 	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
 		<property name="connectionFactory" ref="connectionFactory" />
 		<!--使用topicDestination，是因为好多功能都需要-->
 		<property name="destination" ref="topicDestination" />
 		<property name="messageListener" ref="addItemMessageLisenter" />
+	</bean>
+
+	<!--监听商品添加，为其生成静态界面-->
+	<bean id="htmlGenMessageLisener" class="com.itdan.shopmall.activemq.message.HtmlGenMessageLisener"/>
+	<!-- 消息监听容器 -->
+	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<!--使用topicDestination，是因为好多功能都需要-->
+		<property name="destination" ref="topicDestination" />
+		<property name="messageListener" ref="htmlGenMessageLisener" />
 	</bean>
 
 </beans>

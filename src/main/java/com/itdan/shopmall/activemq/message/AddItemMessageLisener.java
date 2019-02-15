@@ -13,7 +13,7 @@ import javax.jms.TextMessage;
 /**
  * 监听商品的添加信息，并将新增的商品同步到索引库中
  */
-public class AddItemMessageLisenter implements MessageListener {
+public class AddItemMessageLisener implements MessageListener {
 
     @Autowired
     private SolrItemMapper  solrItemMapper;

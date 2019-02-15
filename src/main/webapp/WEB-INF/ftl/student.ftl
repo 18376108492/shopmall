@@ -35,7 +35,23 @@
         </table>
 
     </div>
+<div>
+    日期:${date?date}
+    日期:${date?string("yyyy/MM/dd HH:mm:ss")}<br>
+    null值的处理:${val!"val的值为null"}<br>
+    <#--加?或！来处理-->
+    判断val的值是否为null:
+    <#if val??>
+       val的值不为空
+       <#else>
+       val的值为null
+    </#if>
+</div>
 
+    <#--模板的引用-->
+<div>
+    引用模板测试:<#include "hello.ftl">
+</div>
 
 </body>
 

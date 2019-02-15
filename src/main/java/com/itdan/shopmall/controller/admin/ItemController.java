@@ -117,6 +117,7 @@ public class ItemController {
      * @return
      */
     @RequestMapping(value = "/item/save",method = RequestMethod.POST)
+    @ResponseBody
     public ShopMallResult addItem(TbItem tbItem, String desc){
            ShopMallResult shopMallResult= itemService.addItem(tbItem,desc);
            return shopMallResult;

@@ -8,10 +8,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 静态界面测试
@@ -100,6 +97,11 @@ public class FreemarkerTest {
         list.add(student5);
         //添加到map中
         data.put("studentList",list);
+        //添加日期类型
+        data.put("date",new Date());
+        //设置val=null
+        data.put("val",null);
+
         //7.创建一个Writer对象,指定输出文件的路径及文件名
         Writer out=new FileWriter(new File("D:/ge/student1.html"));
         //8.生成静态界面
