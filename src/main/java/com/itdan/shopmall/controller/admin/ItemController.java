@@ -189,12 +189,10 @@ public class ItemController {
      * @return
      */
     @RequestMapping(value ="/itemDelete")
-    public ModelAndView deleteItem(@RequestParam(value = "ids") String ids){
+    @ResponseBody
+    public ShopMallResult deleteItem(@RequestParam(value = "ids") String ids){
             ShopMallResult shopMallResult=  itemService.deleteItem(ids);
-            ModelAndView view=new ModelAndView();
-            view.addObject("status",shopMallResult.getStatus());
-            view.setViewName("admin/item-list");
-            return view;
+            return shopMallResult;
     }
 
     /**
@@ -203,12 +201,10 @@ public class ItemController {
      * @return
      */
     @RequestMapping(value ="/rest/item/instock")
-    public ModelAndView instockItem(@RequestParam(value = "ids")String ids){
+    @ResponseBody
+    public ShopMallResult instockItem(@RequestParam(value = "ids")String ids){
         ShopMallResult shopMallResult=itemService.instockItem(ids);
-        ModelAndView view=new ModelAndView();
-        view.addObject("status",shopMallResult.getStatus());
-        view.setViewName("admin/item-list");
-        return view;
+        return shopMallResult;
     }
 
     /**
@@ -217,12 +213,10 @@ public class ItemController {
      * @return
      */
     @RequestMapping(value ="/rest/item/reshelf")
-    public ModelAndView reshelfItem(@RequestParam(value = "ids")String ids){
+    @ResponseBody
+    public ShopMallResult reshelfItem(@RequestParam(value = "ids")String ids){
         ShopMallResult shopMallResult=itemService.reshelfItem(ids);
-        ModelAndView view=new ModelAndView();
-        view.addObject("status",shopMallResult.getStatus());
-        view.setViewName("admin/item-list");
-        return view;
+        return shopMallResult;
     }
 
 

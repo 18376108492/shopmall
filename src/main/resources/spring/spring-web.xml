@@ -32,6 +32,7 @@
 	</bean>
 	<!-- 配置资源映射 -->
 	<mvc:resources location="/css/" mapping="/css/**"/>
+	<mvc:resources location="/images/" mapping="/images/**"/>
 	<mvc:resources location="/js/" mapping="/js/**"/>
 
 	<!-- 配置多媒体解析器 -->
@@ -44,7 +45,7 @@
 	</bean>
 
 	<!--异常处理器-->
-	<bean id="globalExxeptionResolver" class="com.itdan.shopmall.exception.GlobalExeptionResolver"></bean>
+	<bean id="globalExxeptionResolver" class="com.itdan.shopmall.exception.GlobalExeptionResolver"/>
 
 
 

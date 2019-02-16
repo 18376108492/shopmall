@@ -1,12 +1,10 @@
 package com.itdan.shopmall.activemq.message;
 
-import com.itdan.shopmall.dao.SolrItemMapper;
 import com.itdan.shopmall.entity.TbItem;
 import com.itdan.shopmall.entity.TbItemDesc;
 import com.itdan.shopmall.service.ItemService;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import org.apache.solr.client.solrj.SolrServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 
@@ -24,10 +22,6 @@ import java.util.Map;
  */
 public class HtmlGenMessageLisener implements MessageListener {
 
-    @Autowired
-    private SolrItemMapper solrItemMapper;
-    @Autowired
-    private SolrServer solrServer;
 
     @Autowired
     private ItemService itemService;
@@ -60,7 +54,7 @@ public class HtmlGenMessageLisener implements MessageListener {
             configuration.setDefaultEncoding("UTF-8");
             Template template= configuration.getTemplate("item.ftl");
             //创建出一个输出流，指定输出的目录及文件名
-            Writer out=new FileWriter(new File("D:/ge/test/"+tbItem.getCid()+".ftl"));
+            Writer out=new FileWriter(new File("D:/ge/test/"+tbItem.getId()+".ftl"));
             //生成静态页面
             template.process(data,out);
             //关闭流
