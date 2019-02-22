@@ -58,8 +58,6 @@
 <body >
 <!-- header start -->
 <jsp:include page="commons/header.jsp" />
-<!-- header end -->
-<jsp:include page="commons/mainmenu.jsp" />
 <div class="linknav"><div class="breadcrumb"><strong><a href="/food/6-0-0-0-0-2-0-0-0-0-0.html">休闲食品</a></strong><span> &gt; <a href="/food/7321-0-0-0-0-2-0-0-0-0-0.html">月饼</a> &gt; <a href="/food/7331-0-0-0-0-2-0-0-0-0-0.html">其他月饼</a> &gt; <a href="http://www.e3mall.cn/pinpai/7331-10863.html">我是花吃</a> &gt; 我是花吃 我是花吃鲜花月饼团圆礼盒390g</span></div></div>
 <div class="pWrap">
     <div class="productIntro">

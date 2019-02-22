@@ -47,7 +47,12 @@
 	<!--异常处理器-->
 	<bean id="globalExxeptionResolver" class="com.itdan.shopmall.exception.GlobalExeptionResolver"/>
 
-
-
+	<!--配置拦截器-->
+    <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.itdan.shopmall.controller.interceptor.LoginInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 </beans>

@@ -3,13 +3,18 @@ package com.itdan.shopmall.controller.user;
 
 import com.itdan.shopmall.entity.TbUser;
 import com.itdan.shopmall.service.UserSerivce;
+import com.itdan.shopmall.utils.common.CookieUtils;
 import com.itdan.shopmall.utils.result.ShopMallResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 用户操作控制层
@@ -19,6 +24,9 @@ public class UserController {
 
     @Autowired
     private UserSerivce userSerivce;
+
+    @Value("${TOKEN_KEY}")
+    private String TOKEN_KEY;
 
     /**
      * 跳转到注册页面
@@ -68,13 +76,21 @@ public class UserController {
 
     /**
      * 用户登入操作
-     * @param tbUser 登入对象
+     * @param username 登录的用户用户名
+     * @param password 登录的用户密码
      * @return
      */
     @RequestMapping(value = "/user/login",method = RequestMethod.POST)
     @ResponseBody
-    public ShopMallResult login(TbUser tbUser){
-          ShopMallResult shopMallResult = userSerivce.login(tbUser);
+    public ShopMallResult login(String username, String password,
+                                HttpServletRequest request, HttpServletResponse response){
+        ShopMallResult shopMallResult = userSerivce.login(username,password);
+        //判断是否登入成功
+        if( shopMallResult.getStatus()==200){
+            //如果成功，将token写入cookie中
+            String token= shopMallResult.getData().toString();
+            CookieUtils.setCookie(request,response,TOKEN_KEY,token);
+        }
         return shopMallResult;
     }
 

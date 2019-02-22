@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserSerivce {
         //通过用户名去查询数据库，获取用户对象
         List<TbUser> list=tbUserMapper.selectByExample(example);
         //判断用户是否存在
-        if(list==null&&list.size()==0){
+        if(list==null||list.size()==0){
             return  ShopMallResult.build(400,"用户名或密码错误");
         }
         //获取查询的用户对象
@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserSerivce {
         }
         //生成token
         String token=UUID.randomUUID().toString();
-        //把用户信息写入redis中，key: token value：用户提示
+        //把用户信息写入redis中，key: token value值为用户提示
         //将密码设为null
         user.setPassword(null);
         jedisClient.set("SESSION:"+token,JsonUtils.objectToJson(user));
