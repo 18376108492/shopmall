@@ -28,7 +28,7 @@ public class CartServiceImpl implements CartService {
 
 
     @Override
-    public ShopMallResult addCart(Long userId, Long itemId, Integer num) {
+    public ShopMallResult addCart(long userId, long itemId, Integer num) {
         //向reids中添加缓存
         //判断hash值是否已经存在
         //数据类型为hash, key：用户ID， filed：商品ID，value：商品信息
@@ -60,7 +60,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public ShopMallResult mergeCart(Long userId, List<TbItem> cartList) {
+    public ShopMallResult mergeCart(long userId, List<TbItem> cartList) {
         //遍历商品列表
         //判断商品是否存在
         //如果存在数量相加
@@ -74,7 +74,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public  List<TbItem> getCartList(Long userId) {
+    public  List<TbItem> getCartList(long userId) {
         //根据用户id获取购物车信息
         List<String> jsonList= jedisClient.hvals(CART_KEY+":"+userId);
         List<TbItem> itemList=new ArrayList<>();
@@ -87,7 +87,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public ShopMallResult updateCartNum(Long userId, Long itemId, Integer num) {
+    public ShopMallResult updateCartNum(long userId, long itemId, Integer num) {
        //从redis中获取购物车信息
         String json= jedisClient.hget(CART_KEY+":"+userId,itemId+"");
         //将json数据类型转换成Tbitem
@@ -95,12 +95,12 @@ public class CartServiceImpl implements CartService {
         //修改商品数量
         tbitem.setNum(num);
         //将修改后的数据写入redis中
-        jedisClient.hset(CART_KEY+":"+userId,tbitem+"",JsonUtils.objectToJson(tbitem));
+        jedisClient.hset(CART_KEY+":"+userId,tbitem.getId()+"",JsonUtils.objectToJson(tbitem));
         return ShopMallResult.ok();
     }
 
     @Override
-    public ShopMallResult deleteCartItem(Long userId, Long itemId) {
+    public ShopMallResult deleteCartItem(long userId, long itemId) {
         //从redis中删除商品
         jedisClient.hdel(CART_KEY+":"+userId,itemId+"");
         return ShopMallResult.ok();

@@ -41,6 +41,22 @@ public class CartController {
 
 
     /**
+     * 从cookie中取购物车列表的处理
+     * @param request
+     * @return
+     */
+    private List<TbItem> getCartListFromCookie(HttpServletRequest request) {
+        String json = CookieUtils.getCookieValue(request, "cart", true);
+        //判断json是否为空
+        if (StringUtils.isBlank(json)) {
+            return new ArrayList<>();
+        }
+        //把json转换成商品列表
+        List<TbItem> list = JsonUtils.jsonToList(json, TbItem.class);
+        return list;
+    }
+
+    /**
      * 商品添加进购物车后，跳转至成功界面。
      *
      * @param itemId   商品id
@@ -71,20 +87,11 @@ public class CartController {
 
         //用于判断商品是否存在
         boolean falg = false;
-        List<TbItem> list;
         //从cookie获取购物车列表
-        String json = CookieUtils.getCookieValue(request, "cart", true);
-        if (StringUtils.isBlank(json)) {
-            //创建一个新的集合
-            list = new ArrayList<>();
-        }else {
-            //不为空就获取商品数据
-            list = JsonUtils.jsonToList(json, TbItem.class);
-        }
+        List<TbItem> list=getCartListFromCookie(request);
 
         //判断商品是否已经存在
         if (list != null && list.size() > 0) {
-
             for (TbItem item : list) {
                 if (item.getId() == itemId.longValue()) {
                     falg = true;
@@ -128,9 +135,10 @@ public class CartController {
                                HttpServletResponse response){
         //从cookie中取出购物车
         //从cookie获取购物车列表
-        String json = CookieUtils.getCookieValue(request, "cart", true);
-        List<TbItem>cartList=JsonUtils.jsonToList(json,TbItem.class);
-        System.out.println("cartList"+cartList);
+        List<TbItem> cartList= getCartListFromCookie(request);
+        if(cartList!=null&&cartList.size()>0) {
+            System.out.println("cartList1:" + cartList);
+        }
 
         //判断用户是否为登入状态
         TbUser user=(TbUser) request.getAttribute("user");
@@ -144,7 +152,6 @@ public class CartController {
             //从服务端取购物车列表
             cartList=cartService.getCartList(user.getId());
         }
-
 
         //把列表传递给页面
         request.setAttribute("cartList",cartList);
@@ -174,8 +181,11 @@ public class CartController {
            return shopMallResult;
         }
         //从cookie获取购物车列表
-        String json = CookieUtils.getCookieValue(request, "cart", true);
-        List<TbItem>cartList=JsonUtils.jsonToList(json,TbItem.class);
+        //从cookie获取购物车列表
+        List<TbItem> cartList= getCartListFromCookie(request);
+        if(cartList!=null&&cartList.size()>0) {
+            System.out.println("cartList2:" + cartList);
+        }
         //根据商品ID查询出集合中商品
         for(TbItem tbItem:cartList){
             //当商品id相等时修改商品数量
@@ -213,8 +223,11 @@ public class CartController {
         }
 
         //从cookie获取购物车列表
-        String json = CookieUtils.getCookieValue(request, "cart", true);
-        List<TbItem>cartList=JsonUtils.jsonToList(json,TbItem.class);
+        //从cookie获取购物车列表
+        List<TbItem> cartList= getCartListFromCookie(request);
+        if(cartList!=null&&cartList.size()>0) {
+            System.out.println("cartList3:" + cartList);
+        }
         //根据商品ID查询出集合中商品
         for(TbItem tbItem:cartList){
             //当商品id相等时修改商品数量

@@ -18,7 +18,7 @@ public interface CartService {
      * @param num 商品数量
      * @return
      */
-    ShopMallResult addCart(Long userId,Long itemId,Integer num);
+    ShopMallResult addCart(long userId,long itemId,Integer num);
 
     /**
      * 登入状态合并购物车
@@ -26,14 +26,14 @@ public interface CartService {
      * @param cartList 购物车列表
      * @return
      */
-    ShopMallResult mergeCart(Long userId, List<TbItem> cartList);
+    ShopMallResult mergeCart(long userId, List<TbItem> cartList);
 
     /**
      * 根据用户ID获取购物车列表
      * @param userId 用户id
      * @return
      */
-    List<TbItem> getCartList(Long userId);
+    List<TbItem> getCartList(long userId);
 
     /**
      * 更新购物车商品的数量
@@ -42,7 +42,7 @@ public interface CartService {
      * @param num 商品数量
      * @return
      */
-    ShopMallResult updateCartNum(Long userId,Long itemId,Integer num);
+    ShopMallResult updateCartNum(long userId,long itemId,Integer num);
 
     /**
      * 删除购物车中的商品
@@ -50,5 +50,5 @@ public interface CartService {
      * @param itemId 商品id
      * @return
      */
-    ShopMallResult deleteCartItem(Long userId,Long itemId);
+    ShopMallResult deleteCartItem(long userId,long itemId);
 }
