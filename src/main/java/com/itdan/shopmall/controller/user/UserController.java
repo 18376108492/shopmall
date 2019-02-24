@@ -8,6 +8,7 @@ import com.itdan.shopmall.utils.result.ShopMallResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,7 +44,8 @@ public class UserController {
      * @return
      */
     @RequestMapping("/page/login")
-    public String toLoginPage(){
+    public String toLoginPage(String redirectUrl, Model model){
+        model.addAttribute("redirect",redirectUrl);
         return "jsp/login";
     }
 

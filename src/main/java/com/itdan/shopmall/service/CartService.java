@@ -51,4 +51,11 @@ public interface CartService {
      * @return
      */
     ShopMallResult deleteCartItem(long userId,long itemId);
+
+    /**
+     * 清空购物车中的所有商品
+     * @param userId 用户id
+     * @return
+     */
+    ShopMallResult clearCartItem(long userId);
 }

@@ -105,4 +105,11 @@ public class CartServiceImpl implements CartService {
         jedisClient.hdel(CART_KEY+":"+userId,itemId+"");
         return ShopMallResult.ok();
     }
+
+    @Override
+    public ShopMallResult clearCartItem(long userId) {
+        //删除购物车
+        jedisClient.del(CART_KEY+":"+userId);
+        return ShopMallResult.ok();
+    }
 }
